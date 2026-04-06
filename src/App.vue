@@ -1,11 +1,10 @@
-<script setup></script>
+<script setup>
+</script>
 
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+<div class="container py-4">
+        <h1 class="text-center text-success mb-4">Bem vindo ao Controle de Produtos</h1>
+  </div>
 </template>
 
 <style scoped></style>

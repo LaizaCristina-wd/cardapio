@@ -1,23 +1,6 @@
 <script setup>
 import { reactive, computed, ref } from "vue"
-
-const produtos = ref([
-  {
-    nome: "X-Burger",
-    preco: 18,
-    categoria: "Lanche"
-  },
-  {
-    nome: "Coca-cola",
-    preco: 6,
-    categoria: "Bebida"
-  },
-  {
-    nome: "Pudim",
-    preco: 9,
-    categoria: "Sobremesa"
-  }
-])
+import { produtos } from "../store/produtos"
 
 function removerProduto(index){
   produtos.value.splice(index, 1)

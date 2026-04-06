@@ -1,5 +1,6 @@
 <script setup>
 import { reactive } from "vue"
+import { produtos } from "../store/produtos"
 
 const novoProduto = reactive({
   nome: "",
@@ -41,11 +42,13 @@ function cadastrarProduto(){
     return
   }
 
-  console.log("Produto cadastrado:", {
+  produtos.value.push({
     nome: novoProduto.nome,
     preco: novoProduto.preco,
-    categoria: novoProduto.categoria
+    categoria: novoProduto.categoria,
+    disponivel: true
   })
+
 
   novoProduto.nome = ""
   novoProduto.preco = ""

@@ -5,7 +5,10 @@ import { produtos } from "../store/produtos"
 function removerProduto(index){
   produtos.value.splice(index, 1)
 }
-
+function alternarDisponibilidade(index){
+  produtos.value[index].disponivel =
+    !produtos.value[index].disponivel
+}
 const filtro = reactive({
   categoria: "todas"
 })
@@ -49,6 +52,7 @@ const produtosFiltrados = computed(() => {
       <li
         v-for="(produto, index) in produtosFiltrados"
         :key="index"
+        :class="{ indisponivel: !produto.disponivel }"
       >
 
         <div>
@@ -64,10 +68,17 @@ const produtosFiltrados = computed(() => {
           <small>{{ produto.categoria }}</small>
 
         </div>
-
+        <div class="acoes">
+          <button
+          class="toggle"
+          @click="alternarDisponibilidade(index)"
+          >
+         {{ produto.disponivel ? "Disponível" : "Indisponível" }}
+         </button>
         <button @click="removerProduto(index)">
           remover
         </button>
+        </div>
 
       </li>
 
@@ -78,7 +89,21 @@ const produtosFiltrados = computed(() => {
 </template>
 
 <style scoped>
+.indisponivel{
+  opacity: 0.45;
+}
+.acoes{
+  display:flex;
+  gap:6px;
+}
 
+.toggle{
+  background:#f59e0b;
+}
+
+.toggle:hover{
+  background:#d97706;
+}
 .container{
   max-width: 420px;
   margin: 40px auto;

@@ -9,7 +9,7 @@ const produtoEditando = ref({
   preco: "",
   categoria: "Lanche",
   descricao: "",
-  disponivel: true
+  //disponivel: true
 })
 function editarProduto(index){
 
@@ -42,11 +42,11 @@ function removerProduto(index){
   produtos.value.splice(index, 1)
 }
 
-function alternarDisponibilidade(index){
+/*function alternarDisponibilidade(index){
   produtos.value[index].disponivel =
     !produtos.value[index].disponivel
 }
-
+*/
 const filtro = reactive({
   categoria: "todas"
 })
@@ -155,12 +155,12 @@ const produtosFiltrados = computed(() => {
         </div>
         
         <div class="acoes">
-          <button
+         <!-- <button
           class="toggle"
           @click="alternarDisponibilidade(index)"
           >
          {{ produto.disponivel ? "Disponível" : "Indisponível" }}
-         </button>
+         </button> -->
           <button @click="editarProduto(index)">
           Editar
           </button>

@@ -1,5 +1,6 @@
 <script setup>
 import { reactive } from "vue"
+import { formatarMoeda } from "../utils/formatarMoeda"
 import { produtos } from "../store/produtos"
 
 const novoProduto = reactive({
@@ -8,22 +9,6 @@ const novoProduto = reactive({
   descricao:"",
   categoria: "Lanche"
 })
-
-function formatarMoeda(valor){
- if (!valor) return ""
-
-  valor = valor
-    .toString()
-    .replace(/[^\d]/g, "")
-
-  valor = (Number(valor) / 100).toFixed(2)
-
-  valor = valor
-    .replace(".", ",")
-    .replace(/\B(?=(\d{3})+(?!\d))/g, ".") //regex para adicionar pontos a cada 3 dígitos
-
-  return `${valor}`
-}
 
 
 function atualizarPreco(event){

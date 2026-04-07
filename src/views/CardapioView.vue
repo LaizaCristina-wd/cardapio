@@ -1,10 +1,47 @@
 <script setup>
-import { reactive, computed } from "vue"
+import { formatarMoeda } from "../utils/formatarMoeda"
+import { reactive, computed, ref } from "vue"
 import { produtos } from "../store/produtos"
+const editandoIndex = ref(null)
+
+const produtoEditando = ref({
+  nome: "",
+  preco: "",
+  categoria: "Lanche",
+  descricao: "",
+  disponivel: true
+})
+function editarProduto(index){
+
+  editandoIndex.value = index
+
+  produtoEditando.value = {
+    ...produtos.value[index]
+  }
+}
+function atualizarPrecoEdicao(event){
+
+  produtoEditando.value.preco =
+    formatarMoeda(event.target.value)
+
+}
+function salvarEdicao(){
+
+  produtos.value[editandoIndex.value] = {
+    ...produtoEditando.value
+  }
+
+  editandoIndex.value = null
+
+}
+function cancelarEdicao(){
+  editandoIndex.value = null
+}
 
 function removerProduto(index){
   produtos.value.splice(index, 1)
 }
+
 function alternarDisponibilidade(index){
   produtos.value[index].disponivel =
     !produtos.value[index].disponivel
@@ -47,6 +84,49 @@ const produtosFiltrados = computed(() => {
       </select>
 
     </div>
+    <div
+    v-if="editandoIndex !== null"
+   class="form-edicao"
+   >
+
+   <h3>Editando produto</h3>
+
+   <input
+    v-model="produtoEditando.nome"
+    placeholder="Nome"
+   >
+
+  <input
+    v-model="produtoEditando.preco"
+     @input="atualizarPrecoEdicao"
+    placeholder="Preço"
+   >
+   <textarea
+      v-model="produtoEditando.descricao"
+      placeholder="Descrição"
+    ></textarea>
+
+  <select v-model="produtoEditando.categoria">
+
+    <option>Lanche</option>
+    <option>Bebida</option>
+    <option>Sobremesa</option>
+
+  </select>
+
+     <div class="acoes">
+
+      <button @click="salvarEdicao">
+        salvar
+      </button>
+
+      <button @click="cancelarEdicao">
+        cancelar
+      </button>
+
+  </div>
+
+</div>
 
     <ul>
 
@@ -65,7 +145,7 @@ const produtosFiltrados = computed(() => {
            <small>{{ produto.descricao }}</small>
 
           <br>
-          
+
           R$ {{ produto.preco }}
 
           <br>
@@ -81,8 +161,11 @@ const produtosFiltrados = computed(() => {
           >
          {{ produto.disponivel ? "Disponível" : "Indisponível" }}
          </button>
+          <button @click="editarProduto(index)">
+          Editar
+          </button>
         <button @click="removerProduto(index)">
-          remover
+          Remover
         </button>
         </div>
 
@@ -95,6 +178,15 @@ const produtosFiltrados = computed(() => {
 </template>
 
 <style scoped>
+.form-edicao{
+  margin-bottom:20px;
+  padding:15px;
+  background:#f3f4f6;
+  border-radius:8px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
 .indisponivel{
   opacity: 0.45;
 }

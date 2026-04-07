@@ -4,8 +4,7 @@ import { RouterLink, RouterView } from "vue-router"
 
 <template>
 <div class="container py-4">
-        <h1 class="text-center text-success mb-4">Bem vindo ao Controle de Produtos</h1>
-        <nav class="menu">
+      <nav class="menu">
 
       <RouterLink to="/">
         Home
@@ -19,7 +18,7 @@ import { RouterLink, RouterView } from "vue-router"
         Cardápio
       </RouterLink>
 
-    </nav>
+     </nav>
       <RouterView />
   </div>
    

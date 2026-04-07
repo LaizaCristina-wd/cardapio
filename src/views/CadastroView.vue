@@ -5,23 +5,24 @@ import { produtos } from "../store/produtos"
 const novoProduto = reactive({
   nome: "",
   preco: "",
+  descricao:"",
   categoria: "Lanche"
 })
 
 function formatarMoeda(valor){
+ if (!valor) return ""
 
-  valor = valor.replace(/\D/g, "")
+  valor = valor
+    .toString()
+    .replace(/[^\d]/g, "")
 
   valor = (Number(valor) / 100).toFixed(2)
 
-  valor = valor.replace(".", ",")
+  valor = valor
+    .replace(".", ",")
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ".") //regex para adicionar pontos a cada 3 dígitos
 
-  valor = valor.replace(
-    /\B(?=(\d{3})+(?!\d))/g,
-    "."
-  )
-
-  return "R$ " + valor
+  return `${valor}`
 }
 
 
@@ -46,12 +47,14 @@ function cadastrarProduto(){
     nome: novoProduto.nome,
     preco: novoProduto.preco,
     categoria: novoProduto.categoria,
+    descricao: novoProduto.descricao,
     disponivel: true
   })
 
 
   novoProduto.nome = ""
   novoProduto.preco = ""
+  novoProduto.descricao = ""
   novoProduto.categoria = "Lanche"
 }
 </script>
@@ -68,6 +71,10 @@ function cadastrarProduto(){
         v-model="novoProduto.nome"
         placeholder="Nome do produto"
       />
+        <input
+          v-model="novoProduto.descricao"
+          placeholder="Descrição do produto"
+        />
 
       <input
         :value="novoProduto.preco"
@@ -92,6 +99,14 @@ function cadastrarProduto(){
 </template>
 
 <style scoped> 
+
+ textarea{
+  padding:10px;
+  border-radius:8px;
+  border:1px solid #ddd;
+  min-height:70px;
+  resize: vertical;
+}
 
 .container{
     max-width: 420px;

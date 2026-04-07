@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, computed, ref } from "vue"
+import { reactive, computed } from "vue"
 import { produtos } from "../store/produtos"
 
 function removerProduto(index){
@@ -9,6 +9,7 @@ function alternarDisponibilidade(index){
   produtos.value[index].disponivel =
     !produtos.value[index].disponivel
 }
+
 const filtro = reactive({
   categoria: "todas"
 })
@@ -30,7 +31,7 @@ const produtosFiltrados = computed(() => {
 
   <div class="container">
 
-    <h2>Cardápio</h2>
+    <h2>Controle de Cardápio</h2>
 
     <div class="filtros">
 
@@ -61,6 +62,10 @@ const produtosFiltrados = computed(() => {
 
           <br>
 
+           <small>{{ produto.descricao }}</small>
+
+          <br>
+          
           R$ {{ produto.preco }}
 
           <br>
@@ -68,6 +73,7 @@ const produtosFiltrados = computed(() => {
           <small>{{ produto.categoria }}</small>
 
         </div>
+        
         <div class="acoes">
           <button
           class="toggle"

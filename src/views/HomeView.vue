@@ -1,11 +1,12 @@
 <template>
   <div class="home">
+    <h1 class="text-center text-success mb-4">Controle de Produtos</h1>
 
     <h2>Gerencie seu cardápio de forma simples</h2>
 
     <p>
       Este sistema permite cadastrar produtos do seu restaurante,
-      organizar por categoria e visualizar o cardápio facilmente.
+      organizar por categoria e visualizar o cardápio.
     </p>
 
     <div class="acoes">

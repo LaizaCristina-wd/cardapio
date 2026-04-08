@@ -14,6 +14,10 @@ import { RouterLink, RouterView } from "vue-router"
         Cadastro
       </RouterLink>
 
+      <RouterLink to="/controle">
+        Controle
+      </RouterLink>
+     
       <RouterLink to="/cardapio">
         Cardápio
       </RouterLink>

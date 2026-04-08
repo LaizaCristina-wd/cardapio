@@ -15,8 +15,8 @@
         <button>Cadastrar produtos</button>
       </router-link>
 
-      <router-link to="/cardapio">
-        <button>Ver cardápio</button>
+      <router-link to="/controle">
+        <button>Ver controle de produtos</button>
       </router-link>
 
     </div>

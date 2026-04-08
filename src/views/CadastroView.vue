@@ -1,7 +1,7 @@
 <script setup>
 import { reactive } from "vue"
 import { formatarMoeda } from "../utils/formatarMoeda"
-import { produtos } from "../store/produtos"
+import { adicionarProduto } from "../store/produtos"
 
 const novoProduto = reactive({
   nome: "",
@@ -9,7 +9,6 @@ const novoProduto = reactive({
   descricao:"",
   categoria: "Lanche"
 })
-
 
 function atualizarPreco(event){
 
@@ -28,14 +27,13 @@ function cadastrarProduto(){
     return
   }
 
-  produtos.value.push({
+  adicionarProduto({
     nome: novoProduto.nome,
     preco: novoProduto.preco,
     categoria: novoProduto.categoria,
     descricao: novoProduto.descricao,
     disponivel: true
   })
-
 
   novoProduto.nome = ""
   novoProduto.preco = ""

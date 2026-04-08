@@ -23,6 +23,7 @@ export function removerProduto(produto){
     produtos.value.splice(index, 1)
   }
 }
+
 export function editarProduto(produtoAtualizado){
 
   const index =

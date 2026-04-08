@@ -35,6 +35,9 @@ import {
       {{ produto.nome }}
 
     </h2>
+    <br>
+
+     <small>{{ produto.descricao }}</small>
 
     <p>
 

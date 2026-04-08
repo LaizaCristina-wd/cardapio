@@ -11,8 +11,9 @@ const produtoEditando = ref({
   descricao: "",
   //disponivel: true
 })
-function editarProduto(index){
+function editarProduto(produto){
 
+  const index = produtos.value.indexOf(produto)
   editandoIndex.value = index
 
   produtoEditando.value = {

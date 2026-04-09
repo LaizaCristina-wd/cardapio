@@ -1,121 +1,58 @@
 <script setup>
-
 import {
   produtos,
   alternarDisponibilidade
 } from "../store/produtos"
-
 </script>
-
 <template>
-
 <h1>Preview do Cardápio</h1>
-
 <div class="grid">
-
   <div
-
     v-for="(produto, index) in produtos"
-
-    :key="index"
-
-    class="card"
-
-    :class="{
-
-      indisponivel:
-      !produto.disponivel
-
-    }"
-
-  >
-
-    <h2>
-
-      {{ produto.nome }}
-
-    </h2>
-    <br>
-
-     <small>{{ produto.descricao }}</small>
-
-    <p>
-
-      R$ {{ produto.preco }}
-
-    </p>
-
-    <small>
-
-      {{ produto.categoria }}
-
-    </small>
-
+      :key="index"
+      class="card"
+      :class="{indisponivel:!produto.disponivel}">
+        <h2>
+          {{ produto.nome }}
+        </h2>
+        <br>
+      <small>{{ produto.descricao }}</small>
+        <p>
+          R$ {{ produto.preco }}
+        </p>
+      <small>
+        {{ produto.categoria }}
+      </small>
     <button
-
-      @click="
-      alternarDisponibilidade(index)
-      "
-
-    >
-
-      {{ produto.disponivel
-
-        ? "Disponível"
-
-        : "Indisponível"
-
-      }}
-
+      @click="alternarDisponibilidade(index)">{{ produto.disponivel? "Disponível" : "Indisponível"}}
     </button>
-
   </div>
-
 </div>
-
 </template>
 <style scoped>
-.grid{
-
-  display: grid;
-
-  grid-template-columns:
-
-  repeat(
-    auto-fill,
-    minmax(220px,1fr)
-  );
-
-  gap: 20px;
-
-}
-
-.card{
-
-  padding: 20px;
-
-  border-radius: 12px;
-
-  background: white;
-
-  box-shadow: 0 2px 8px #ddd;
-
-  transition: 0.3s;
-
-}
-
-.indisponivel{
-
-  opacity: 0.4;
-
-}
-button{
-    margin-top: 15px;
-    padding: 8px 14px;
-    border: none;
-    border-radius: 6px;
-    background: #22c55e;
-    color: white;
-    cursor: pointer;
-}
+  .grid{
+    display: grid;
+    grid-template-columns:
+    repeat( auto-fill, minmax(220px,1fr));
+    gap: 20px;
+  }
+  .card{
+    padding: 20px;
+    border-radius: 12px;
+    background: white;
+    box-shadow: 0 2px 8px #ddd;
+    transition: 0.3s;
+  }
+  .indisponivel{
+    opacity: 0.4;
+  }
+  button{
+      margin-top: 15px;
+      padding: 8px 14px;
+      border: none;
+      border-radius: 6px;
+      background: #22c55e;
+      color: white;
+      cursor: pointer;
+  }
 </style>

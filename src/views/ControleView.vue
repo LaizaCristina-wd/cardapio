@@ -12,7 +12,6 @@ const produtoEditando = ref({
   //disponivel: true
 })
 function editarProduto(produto){
-
   const index = produtos.value.indexOf(produto)
   editandoIndex.value = index
 
@@ -21,25 +20,18 @@ function editarProduto(produto){
   }
 }
 function atualizarPrecoEdicao(event){
-
   produtoEditando.value.preco =
     formatarMoeda(event.target.value)
-
 }
 function salvarEdicao(){
-
   produtos.value[editandoIndex.value] = {
     ...produtoEditando.value
   }
-
   editandoIndex.value = null
-
 }
 function cancelarEdicao(){
   editandoIndex.value = null
 }
-
-
 const filtro = reactive({
   categoria: "todas"
 })
@@ -51,39 +43,27 @@ const produtosFiltrados = computed(() => {
   }
 
   return produtos.value.filter(
-    produto => produto.categoria === filtro.categoria
-  )
-
+    produto => produto.categoria === filtro.categoria)
 })
 </script>
 
 <template>
-
   <div class="container">
-
     <h2>Controle de Cardápio</h2>
-
     <div class="filtros">
-
       <label>Filtrar por categoria:</label>
-
       <select v-model="filtro.categoria">
-
         <option value="todas">Todas</option>
         <option value="Lanche">Lanche</option>
         <option value="Bebida">Bebida</option>
         <option value="Sobremesa">Sobremesa</option>
-
       </select>
-
     </div>
     <div
     v-if="editandoIndex !== null"
    class="form-edicao"
-   >
-
+    >
    <h3>Editando produto</h3>
-
    <input
     v-model="produtoEditando.nome"
     placeholder="Nome"
@@ -98,31 +78,21 @@ const produtosFiltrados = computed(() => {
       v-model="produtoEditando.descricao"
       placeholder="Descrição"
     ></textarea>
-
   <select v-model="produtoEditando.categoria">
-
     <option>Lanche</option>
     <option>Bebida</option>
     <option>Sobremesa</option>
-
   </select>
-
      <div class="acoes">
-
       <button @click="salvarEdicao">
         salvar
       </button>
-
       <button @click="cancelarEdicao">
         cancelar
       </button>
-
   </div>
-
 </div>
-
     <ul>
-
       <li
         v-for="produto in produtosFiltrados"
         :key="produto.nome"
@@ -154,13 +124,9 @@ const produtosFiltrados = computed(() => {
           Remover
         </button>
         </div>
-
       </li>
-
     </ul>
-
   </div>
-
 </template>
 
 <style scoped>

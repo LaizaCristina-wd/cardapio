@@ -1,7 +1,6 @@
 <script setup>
 import {
-  produtos,
-  alternarDisponibilidade
+  produtos
 } from "../store/produtos"
 </script>
 <template>
@@ -10,8 +9,7 @@ import {
   <div
     v-for="(produto, index) in produtos"
       :key="index"
-      class="card"
-      :class="{indisponivel:!produto.disponivel}">
+      class="card">
         <h2>
           {{ produto.nome }}
         </h2>
@@ -23,9 +21,7 @@ import {
       <small>
         {{ produto.categoria }}
       </small>
-    <button
-      @click="alternarDisponibilidade(index)">{{ produto.disponivel? "Disponível" : "Indisponível"}}
-    </button>
+   
   </div>
 </div>
 </template>
@@ -41,10 +37,22 @@ import {
     border-radius: 12px;
     background: white;
     box-shadow: 0 2px 8px #ddd;
-    transition: 0.3s;
   }
-  .indisponivel{
-    opacity: 0.4;
+
+  h1{
+    text-align: center;
+    margin-bottom: 30px;
+  }
+   h2{
+    margin-bottom: 10px;
+  }
+   p{
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px 0;
+  }
+   small{
+    color: #555;
   }
   button{
       margin-top: 15px;

@@ -5,11 +5,12 @@ export function formatarMoeda(valor){
     .toString()
     .replace(/[^\d]/g, "")
 
+ if (!valor) return ""
   valor = (Number(valor) / 100).toFixed(2)
 
   valor = valor
     .replace(".", ",")
-    .replace(/\B(?=(\d{3})+(?!\d))/g, ".") //regex para adicionar pontos a cada 3 dígitos
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ".")
 
   return `${valor}`
 }

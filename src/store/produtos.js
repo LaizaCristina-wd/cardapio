@@ -10,7 +10,7 @@ export function adicionarProduto(produto){
   produtos.value.push({
 
     ...produto,
-
+     id: crypto.randomUUID(), //adicionei essa parte nova
     disponivel: true
 
   })
@@ -18,7 +18,7 @@ export function adicionarProduto(produto){
 }
 export function removerProduto(produto){
 
-  const index = produtos.value.indexOf(produto)
+  const index = produtos.value.findIndex(p => p.id === produto.id)//adicionei essa parte nova
   if (index !== -1) {
     produtos.value.splice(index, 1)
   }
@@ -29,24 +29,26 @@ export function editarProduto(produtoAtualizado){
   const index =
     produtos.value.findIndex(p =>
 
-      p === produtoAtualizado.original
+      p => p.id === produtoAtualizado.id
 
     )
 
   if(index !== -1){
 
     produtos.value[index] =
-      produtoAtualizado.novo
+      produtoAtualizado
 
   }
 
 }
-export function alternarDisponibilidade(index){
+export function alternarDisponibilidade(id){
 
-  produtos.value[index].disponivel =
-    !produtos.value[index].disponivel
+  const produto = produtos.value.find(p => p.id === id)
+   if (produto) {
+    produto.disponivel = !produto.disponivel
+  }
+  }
 
-}
 watch(produtos, (novoValor) => {
 
   localStorage.setItem(

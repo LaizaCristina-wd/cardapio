@@ -7,7 +7,7 @@ const novoProduto = reactive({
     nome: "",
     preco: "",
     descricao:"",
-    categoria: "Lanche"
+    categoria: "categoria"
   })
 
 function atualizarPreco(event){
@@ -25,14 +25,14 @@ function cadastrarProduto(){
       adicionarProduto({
         nome: novoProduto.nome,
         preco: novoProduto.preco,
-        categoria: novoProduto.categoria,
         descricao: novoProduto.descricao,
+        categoria: novoProduto.categoria,
         disponivel: true
       })
         novoProduto.nome = ""
         novoProduto.preco = ""
         novoProduto.descricao = ""
-        novoProduto.categoria = "Lanche"
+        novoProduto.categoria = "categoria"
       }
   </script>
 
@@ -45,7 +45,7 @@ function cadastrarProduto(){
         v-model="novoProduto.nome"
         placeholder="Nome do produto"
          />
-        <input
+        <textarea
           v-model="novoProduto.descricao"
           placeholder="Descrição do produto"
         />
@@ -55,12 +55,12 @@ function cadastrarProduto(){
         placeholder="Preço"
         />
       <select v-model="novoProduto.categoria">
-        <option>Lanche</option>
-        <option>Bebida</option>
-        <option>Sobremesa</option>
+        <option value="lanche">Lanche</option>
+        <option value="bebida">Bebida</option>
+        <option value="sobremesa">Sobremesa</option>
       </select>
       <button @click="cadastrarProduto">
-        cadastrar
+        Cadastrar
       </button>
     </div>
   </div>

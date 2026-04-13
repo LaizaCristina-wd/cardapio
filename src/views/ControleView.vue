@@ -1,18 +1,17 @@
 <script setup>
 import { formatarMoeda } from "../utils/formatarMoeda"
 import { reactive, computed, ref } from "vue"
-import { produtos, removerProduto } from "../store/produtos"
+import { produtos, removerProduto, alternarDisponibilidade } from "../store/produtos"
 const editandoIndex = ref(null)
 
 const produtoEditando = ref({
   nome: "",
   preco: "",
-  categoria: "Lanche",
-  descricao: "",
-  //disponivel: true
+  categoria: "categoria",
+  descricao: ""
 })
 function editarProduto(produto){
-  const index = produtos.value.indexOf(produto)
+  const index = produtos.value.findIndex(p => p.id === produto.id)
   editandoIndex.value = index
 
   produtoEditando.value = {
@@ -24,7 +23,9 @@ function atualizarPrecoEdicao(event){
     formatarMoeda(event.target.value)
 }
 function salvarEdicao(){
+  const produtoAntigo = produtos.value[editandoIndex.value]
   produtos.value[editandoIndex.value] = {
+    ...produtoAntigo,
     ...produtoEditando.value
   }
   editandoIndex.value = null
@@ -37,26 +38,40 @@ const filtro = reactive({
 })
 
 const produtosFiltrados = computed(() => {
-
   if (filtro.categoria === "todas"){
     return produtos.value
   }
-
   return produtos.value.filter(
     produto => produto.categoria === filtro.categoria)
+})
+const totalProdutos = computed(() => produtos.value.length)
+
+const totalPorCategoria = computed(() => {
+  return {
+    lanche: produtos.value.filter(p => p.categoria === "lanche").length,
+    bebida: produtos.value.filter(p => p.categoria === "bebida").length,
+    sobremesa: produtos.value.filter(p => p.categoria === "sobremesa").length
+  }
 })
 </script>
 
 <template>
   <div class="container">
     <h2>Controle de Cardápio</h2>
+     <div class="cards-resumo">
+    <div>Total: {{ totalProdutos }}</div>
+    <div>🍔 Lanche {{ totalPorCategoria.lanche }}</div>
+    <div>🥤 Bebida {{ totalPorCategoria.bebida }}</div>
+    <div>🍰 Sobremesa {{ totalPorCategoria.sobremesa }}</div>
+  </div>
+
     <div class="filtros">
       <label>Filtrar por categoria:</label>
       <select v-model="filtro.categoria">
         <option value="todas">Todas</option>
-        <option value="Lanche">Lanche</option>
-        <option value="Bebida">Bebida</option>
-        <option value="Sobremesa">Sobremesa</option>
+        <option value="lanche">Lanche</option>
+        <option value="bebida">Bebida</option>
+        <option value="sobremesa">Sobremesa</option>
       </select>
     </div>
     <div
@@ -65,38 +80,43 @@ const produtosFiltrados = computed(() => {
     >
    <h3>Editando produto</h3>
    <input
+    id="nome"
+    name="nome"
     v-model="produtoEditando.nome"
     placeholder="Nome"
    >
 
   <input
-    v-model="produtoEditando.preco"
-     @input="atualizarPrecoEdicao"
+    id="preco"
+    name="preco"
+    :value="produtoEditando.preco"
+    @input="atualizarPrecoEdicao"
     placeholder="Preço"
-   >
+    >
    <textarea
+      id="descricao"
+      name="descricao"
       v-model="produtoEditando.descricao"
       placeholder="Descrição"
     ></textarea>
-  <select v-model="produtoEditando.categoria">
-    <option>Lanche</option>
-    <option>Bebida</option>
-    <option>Sobremesa</option>
+  <select id="categoria" name="categoria" v-model="produtoEditando.categoria">
+    <option value="lanche">Lanche</option>
+    <option value="bebida">Bebida</option>
+    <option value="sobremesa">Sobremesa</option>
   </select>
      <div class="acoes">
-      <button @click="salvarEdicao">
+      <button class="color-btn" @click="salvarEdicao">
         salvar
       </button>
-      <button @click="cancelarEdicao">
+      <button class="second-color-btn" @click="cancelarEdicao">
         cancelar
       </button>
   </div>
+  
 </div>
     <ul>
-      <li
-        v-for="produto in produtosFiltrados"
-        :key="produto.nome"
-      >
+      <li v-for="produto in produtosFiltrados" :key="produto.id"
+      :class="{indisponivel: !produto.disponivel}">
         <div>
 
           <strong>{{ produto.nome }}</strong>
@@ -116,11 +136,14 @@ const produtosFiltrados = computed(() => {
         </div>
         
         <div class="acoes">
+         <button
+           @click="alternarDisponibilidade(produto.id)">{{ produto.disponivel? "Disponível" : "Indisponível"}}
+         </button>
         
-          <button @click="editarProduto(produto)">
+          <button class="color-btn" @click="editarProduto(produto)">
           Editar
           </button>
-        <button @click="removerProduto(produto)">
+        <button class="second-color-btn" @click="removerProduto(produto)">
           Remover
         </button>
         </div>
@@ -139,21 +162,12 @@ const produtosFiltrados = computed(() => {
   flex-direction:column;
   gap:8px;
 }
-.indisponivel{
-  opacity: 0.45;
-}
+
 .acoes{
   display:flex;
   gap:6px;
 }
 
-.toggle{
-  background:#f59e0b;
-}
-
-.toggle:hover{
-  background:#d97706;
-}
 .container{
   max-width: 420px;
   margin: 40px auto;
@@ -170,6 +184,7 @@ const produtosFiltrados = computed(() => {
   gap:6px;
 }
 
+  
 select{
   padding: 10px;
   border-radius: 8px;
@@ -189,19 +204,28 @@ li{
   padding: 12px;
   margin-bottom: 10px;
   border-radius: 8px;
+  transition: 0.3s;
 }
-
+.indisponivel{
+    opacity: 0.4;
+}
+.color-btn{
+  background: #6e6868;
+  color: white;
+}
+.second-color-btn{
+  background: #6e6868 ;
+  color: white;
+}
 button{
   padding: 6px 10px;
   border-radius: 6px;
   border: none;
-  background: #ef4444;
-  color: white;
   cursor: pointer;
 }
 
 button:hover{
-  background: #dc2626;
+  background: #99ad93;
 }
 
 </style>

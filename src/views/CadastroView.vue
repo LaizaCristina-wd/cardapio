@@ -30,18 +30,17 @@ function cadastrarProduto() {
     categoria: novoProduto.categoria,
     disponivel: true
   })
-
-  novoProduto.nome = ""
-  novoProduto.preco = ""
-  novoProduto.descricao = ""
-  novoProduto.categoria = ""
+    novoProduto.nome = ""
+    novoProduto.preco = ""
+    novoProduto.descricao = ""
+    novoProduto.categoria = ""
 }
 </script>
 
 <template>
   <div class="container">
     <h2>Cadastrar produto</h2>
-    <div class="form">
+    <form class="form" @submit.prevent="cadastrarProduto">
       <input
         v-model="novoProduto.nome"
         placeholder="Nome do produto"
@@ -61,10 +60,10 @@ function cadastrarProduto() {
         <option value="bebida">Bebida</option>
         <option value="sobremesa">Sobremesa</option>
       </select>
-      <button @click="cadastrarProduto">
+      <button type="submit">
         Cadastrar
       </button>
-    </div>
+    </form>
   </div>
 </template>
 

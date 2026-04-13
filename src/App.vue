@@ -3,8 +3,8 @@ import { RouterLink, RouterView } from "vue-router"
 </script>
 
 <template>
-<div class="container py-4">
-      <nav class="menu">
+  <div class="container py-4">
+    <nav class="menu">
 
       <RouterLink to="/">
         Home
@@ -22,7 +22,7 @@ import { RouterLink, RouterView } from "vue-router"
         Cardápio
       </RouterLink>
 
-     </nav>
+    </nav>
       <RouterView />
   </div>
    

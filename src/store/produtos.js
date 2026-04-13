@@ -2,7 +2,9 @@ import { ref, watch } from "vue"
 
 const dadosSalvos = localStorage.getItem("produtos")
 export const produtos = ref(
-  dadosSalvos ? JSON.parse(dadosSalvos) : []
+  dadosSalvos ? JSON.parse(dadosSalvos).map(p =>({...p,
+    categoria: p.categoria?.toLowerCase() || ""
+  })): []
 )
 
 export function adicionarProduto(produto) {
@@ -23,7 +25,10 @@ export function removerProduto(produto) {
 export function editarProduto(produtoAtualizado) {
   const index = produtos.value.findIndex(p => p.id === produtoAtualizado.id)
   if (index !== -1) {
-    produtos.value[index] = produtoAtualizado
+    produtos.value[index] = {
+      ...produtoAtualizado,
+      categoria: produtoAtualizado.categoria?.toLowerCase() || ""
+    }
   }
 }
 

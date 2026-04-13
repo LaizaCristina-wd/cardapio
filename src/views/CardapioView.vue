@@ -9,7 +9,8 @@ import {
   <div
     v-for="(produto, index) in produtos"
       :key="index"
-      class="card">
+      class="card"
+       :class="{ indisponivel: !produto.disponivel }">
         <h2>
           {{ produto.nome }}
         </h2>
@@ -38,6 +39,10 @@ import {
     background: white;
     box-shadow: 0 2px 8px #ddd;
   }
+  .card.indisponivel {
+  opacity: 0.4;
+  filter: grayscale(100%);
+}
 
   h1{
     text-align: center;

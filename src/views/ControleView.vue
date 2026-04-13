@@ -78,13 +78,13 @@ const totalPorCategoria = computed(() => {
     v-if="editandoIndex !== null"
    class="form-edicao"
     >
-   <h3>Editando produto</h3>
-   <input
+  <h3>Editando produto</h3>
+  <input
     id="nome"
     name="nome"
     v-model="produtoEditando.nome"
     placeholder="Nome"
-   >
+  >
 
   <input
     id="preco"
@@ -92,64 +92,66 @@ const totalPorCategoria = computed(() => {
     :value="produtoEditando.preco"
     @input="atualizarPrecoEdicao"
     placeholder="Preço"
-    >
-   <textarea
-      id="descricao"
-      name="descricao"
-      v-model="produtoEditando.descricao"
-      placeholder="Descrição"
-    ></textarea>
+  >
+
+  <textarea
+    id="descricao"
+    name="descricao"
+    v-model="produtoEditando.descricao"
+    placeholder="Descrição"
+  ></textarea>
+
   <select id="categoria" name="categoria" v-model="produtoEditando.categoria">
     <option value="lanche">Lanche</option>
     <option value="bebida">Bebida</option>
     <option value="sobremesa">Sobremesa</option>
   </select>
-     <div class="acoes">
-      <button class="color-btn" @click="salvarEdicao">
-        salvar
-      </button>
-      <button class="second-color-btn" @click="cancelarEdicao">
-        cancelar
-      </button>
+
+  <div class="acoes">
+    <button class="color-btn" @click="salvarEdicao">
+      Salvar
+    </button>
+    <button class="second-color-btn" @click="cancelarEdicao">
+      Cancelar
+    </button>
+    </div>
   </div>
-  
-</div>
-    <ul>
-      <li v-for="produto in produtosFiltrados" :key="produto.id"
-      :class="{indisponivel: !produto.disponivel}">
-        <div>
 
-          <strong>{{ produto.nome }}</strong>
+  <ul>
+    <li v-for="produto in produtosFiltrados" :key="produto.id"
+    :class="{indisponivel: !produto.disponivel}">
+      <div>
 
-          <br>
+        <strong>{{ produto.nome }}</strong>
 
-           <small>{{ produto.descricao }}</small>
+        <br>
 
-          <br>
+         <small>{{ produto.descricao }}</small>
 
-          R$ {{ produto.preco }}
+        <br>
 
-          <br>
+        R$ {{ produto.preco }}
 
-          <small>{{ produto.categoria }}</small>
+        <br>
 
-        </div>
-        
-        <div class="acoes">
-         <button
-           @click="alternarDisponibilidade(produto.id)">{{ produto.disponivel? "Disponível" : "Indisponível"}}
-         </button>
-        
-          <button class="color-btn" @click="editarProduto(produto)">
-          Editar
-          </button>
-        <button class="second-color-btn" @click="removerProduto(produto)">
-          Remover
+        <small>{{ produto.categoria }}</small>
+
+      </div>
+      
+      <div class="acoes">
+       <button
+         @click="alternarDisponibilidade(produto.id)">{{ produto.disponivel? "Disponível" : "Indisponível"}}
+       </button>
+        <button class="color-btn" @click="editarProduto(produto)">
+        Editar
         </button>
-        </div>
-      </li>
-    </ul>
-  </div>
+        <button class="second-color-btn" @click="removerProduto(produto)">
+        Remover
+      </button>
+      </div>
+    </li>
+  </ul>
+</div>
 </template>
 
 <style scoped>
@@ -183,7 +185,6 @@ const totalPorCategoria = computed(() => {
   flex-direction:column;
   gap:6px;
 }
-
   
 select{
   padding: 10px;

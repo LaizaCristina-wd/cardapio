@@ -1,9 +1,9 @@
 <script setup>
-import {produtos} from "../store/produtos"
+import { produtos } from "../store/produtos"
 </script>
 <template>
 
-<h1>Preview do Cardápio</h1>
+<h1>Visualizar Cardápio</h1>
   <div class="grid">
     <div
       v-for="(produto, index) in produtos"
@@ -13,7 +13,7 @@ import {produtos} from "../store/produtos"
           <h2> {{ produto.nome }} </h2>
           <br>
           <small>{{ produto.descricao }}</small>
-          <p> R${{ produto.preco }} </p>
+          <p> {{ produto.preco }} </p>
           <small> {{ produto.categoria }} </small>
     </div>
   </div>

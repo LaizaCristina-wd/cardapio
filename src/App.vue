@@ -7,7 +7,7 @@ import { RouterLink, RouterView } from "vue-router"
     <nav class="menu">
 
       <RouterLink to="/">
-        Home
+        Início
       </RouterLink>
 
       <RouterLink to="/cadastro">
@@ -25,7 +25,6 @@ import { RouterLink, RouterView } from "vue-router"
     </nav>
       <RouterView />
   </div>
-   
 </template>
 
 <style scoped>

@@ -12,5 +12,5 @@ export function formatarMoeda(valor){
     .replace(".", ",")
     .replace(/\B(?=(\d{3})+(?!\d))/g, ".")
 
-  return `${valor}`
+  return ` R$ ${valor}`
 }

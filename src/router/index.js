@@ -20,8 +20,8 @@ const routes = [
     name: "controle",
     component: ControleView
   },
-    { path:   '/cardapio',
-      name: 'cardapio',
+    { path: "/cardapio",
+      name: "cardapio",
       component: CardapioView }
 ]
 

@@ -13,7 +13,6 @@ const produtoEditando = ref({
 function editarProduto(produto){
   const index = produtos.value.findIndex(p => p.id === produto.id)
   editandoIndex.value = index
-
   produtoEditando.value = {
     ...produtos.value[index]
   }
@@ -26,7 +25,9 @@ function salvarEdicao(){
   const produtoAntigo = produtos.value[editandoIndex.value]
   produtos.value[editandoIndex.value] = {
     ...produtoAntigo,
-    ...produtoEditando.value
+    ...produtoEditando.value,
+        categoria: produtoEditando.value.categoria.toLowerCase().trim()
+
   }
   editandoIndex.value = null
 }
@@ -46,6 +47,7 @@ const produtosFiltrados = computed(() => {
 const totalProdutos = computed(() => produtos.value.length)
 
 const totalPorCategoria = computed(() => {
+  console.log(produtos.value)
   return {
     lanche: produtos.value.filter(p => p.categoria === "lanche").length,
     bebida: produtos.value.filter(p => p.categoria === "bebida").length,
@@ -123,8 +125,8 @@ const totalPorCategoria = computed(() => {
         <br>
           <small>{{ produto.descricao }}</small>
         <br>
-          R$ {{ produto.preco }}
-        <br>
+          <p>{{ produto.preco }}</p>
+        
           <small>{{ produto.categoria }}</small>
       </div>
       

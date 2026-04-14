@@ -70,7 +70,7 @@
   padding: 10px 18px;
   border-radius: 8px;
   border: none;
-  cursor: pointer;
+  cursor:pointer;
   font-weight: 500;
   transition: 0.3s;
 }

@@ -20,9 +20,11 @@ const routes = [
     name: "controle",
     component: ControleView
   },
-    { path: "/cardapio",
-      name: "cardapio",
-      component: CardapioView }
+  { 
+    path: "/cardapio",
+    name: "cardapio",
+    component: CardapioView 
+  }
 ]
 
 const router = createRouter({

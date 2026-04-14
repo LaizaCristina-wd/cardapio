@@ -1,37 +1,89 @@
-# .
+#  Sistema de Cardápio
 
+Aplicação desenvolvida com Vue 3 para cadastro, edição e visualização de produtos.
 
-## Recommended IDE Setup
+---
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## Como rodar o projeto
 
-## Recommended Browser Setup
+### 🔹 Localmente
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+npm install  
+npm run dev  
 
-## Customize configuration
+Acesse:
+http://localhost:5173  
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+---
 
-## Project Setup
+### Com Docker
 
-```sh
-npm install
-```
+npm run build  
+docker compose up -d  
 
-### Compile and Hot-Reload for Development
+Acesse:
+http://localhost:8080  
 
-```sh
-npm run dev
-```
+---
 
-### Compile and Minify for Production
+## Funcionalidades
 
-```sh
-npm run build
-```
+- Cadastro de produtos
+- Edição de produtos
+- Remoção de produtos
+- Filtro por categoria
+- Controle de disponibilidade
+- Pré visualização do cardápio
+
+---
+
+## Conceitos aplicados
+
+- Reatividade (ref, reactive)
+
+  CadastroView.vue (~linha 5)
+
+  ControleView.vue (~linha 34)
+
+- Computed (filtro de produtos)
+
+  ControleView.vue(~linhas 37-46)
+
+- Eventos (@click)
+
+  ControleView.vue (~linhas 104-134)
+
+- Eventos (@input)
+
+  CadastroView.vue (~linha 50)
+
+  ControleView.vue (~linha 87)
+
+- v-model (two-way binding)
+
+  CadastroView.vue (linhas 41-53)
+
+  ControleView.vue (linhas 67-97)
+
+- v-if (renderização condicional) 
+
+  ControleView.vue (~linha 75)
+
+- v-for (renderização de listas) 
+
+  CardapioView.vue (~linha 9)
+
+  ControleView.vue (~linha 114)
+
+- :key (identificação de elementos em listas) 
+
+  CardapioView.vue (~linha 11)
+
+  ControleView.vue (~linha 114)
+
+- :class (classes dinâmicas) 
+
+  CardapioView.vue (~linha 12)
+  ControleView.vue (~linha 115)
+
+- Spread operator (...)

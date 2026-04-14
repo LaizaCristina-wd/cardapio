@@ -2,7 +2,6 @@
 import { reactive } from "vue"
 import { formatarMoeda } from "../utils/formatarMoeda"
 import { adicionarProduto } from "../store/produtos"
-
 const novoProduto = reactive({
   nome: "",
   preco: "",
@@ -13,7 +12,6 @@ const novoProduto = reactive({
 function atualizarPreco(event) {
   novoProduto.preco = formatarMoeda(event.target.value)
 }
-
 function cadastrarProduto() {
   if (
     novoProduto.nome.trim() === "" ||
@@ -22,13 +20,11 @@ function cadastrarProduto() {
     alert("Preencha todos os campos")
     return
   }
-
   adicionarProduto({
     nome: novoProduto.nome,
     preco: novoProduto.preco,
     descricao: novoProduto.descricao,
-    categoria: novoProduto.categoria,
-    disponivel: true
+    categoria: novoProduto.categoria
   })
     novoProduto.nome = ""
     novoProduto.preco = ""

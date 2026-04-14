@@ -6,20 +6,12 @@ export const produtos = ref(
     categoria: p.categoria?.toLowerCase() || ""
   })): []
 )
-
 export function adicionarProduto(produto) {
   produtos.value.push({
     ...produto,
     id: crypto.randomUUID(),
     disponivel: true
   })
-}
-
-export function removerProduto(produto) {
-  const index = produtos.value.findIndex(p => p.id === produto.id)
-  if (index !== -1) {
-    produtos.value.splice(index, 1)
-  }
 }
 
 export function editarProduto(produtoAtualizado) {
@@ -36,6 +28,12 @@ export function alternarDisponibilidade(id) {
   const produto = produtos.value.find(p => p.id === id)
   if (produto) {
     produto.disponivel = !produto.disponivel
+  }
+}
+export function removerProduto(produto) {
+  const index = produtos.value.findIndex(p => p.id === produto.id)
+  if (index !== -1) {
+    produtos.value.splice(index, 1)
   }
 }
 

@@ -1,18 +1,18 @@
 <script setup>
 import { formatarMoeda } from "../utils/formatarMoeda"
 import { reactive, computed, ref } from "vue"
-import { produtos, removerProduto, alternarDisponibilidade } from "../store/produtos"
-const editandoIndex = ref(null)
+import { produtos, editarProduto, removerProduto, alternarDisponibilidade } from "../store/produtos"
 
+const editandoIndex = ref(null)
 const produtoEditando = ref({
   nome: "",
   preco: "",
   categoria: "categoria",
   descricao: ""
 })
-function editarProduto(produto){
+function iniciarEdicao(produto){
   const index = produtos.value.findIndex(p => p.id === produto.id)
-  editandoIndex.value = index
+  editandoIndex.value = index 
   produtoEditando.value = {
     ...produtos.value[index]
   }
@@ -22,13 +22,10 @@ function atualizarPrecoEdicao(event){
     formatarMoeda(event.target.value)
 }
 function salvarEdicao(){
-  const produtoAntigo = produtos.value[editandoIndex.value]
-  produtos.value[editandoIndex.value] = {
-    ...produtoAntigo,
+   editarProduto({
     ...produtoEditando.value,
-        categoria: produtoEditando.value.categoria.toLowerCase().trim()
-
-  }
+    categoria: produtoEditando.value.categoria.toLowerCase().trim()
+  })
   editandoIndex.value = null
 }
 function cancelarEdicao(){
@@ -84,7 +81,6 @@ const totalPorCategoria = computed(() => {
     v-model="produtoEditando.nome"
     placeholder="Nome"
    >
-
   <input
     id="preco"
     name="preco"
@@ -92,14 +88,12 @@ const totalPorCategoria = computed(() => {
     @input="atualizarPrecoEdicao"
     placeholder="Preço"
     >
-
   <textarea
     id="descricao"
     name="descricao"
     v-model="produtoEditando.descricao"
     placeholder="Descrição"
    ></textarea>
-
   <select id="categoria" name="categoria" 
   v-model="produtoEditando.categoria">
     <option value="lanche">Lanche</option>
@@ -135,7 +129,7 @@ const totalPorCategoria = computed(() => {
          @click="alternarDisponibilidade(produto.id)">
          {{ produto.disponivel? "Disponível" : "Indisponível"}}
         </button>
-        <button class="color-btn" @click="editarProduto(produto)">
+        <button class="color-btn" @click="iniciarEdicao(produto)">
         Editar
         </button>
         <button class="second-color-btn" @click="removerProduto(produto)">

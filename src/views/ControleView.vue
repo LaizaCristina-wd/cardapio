@@ -7,7 +7,7 @@ const editandoIndex = ref(null)
 const produtoEditando = ref({
   nome: "",
   preco: "",
-  categoria: "categoria",
+  categoria: "",
   descricao: ""
 })
 function iniciarEdicao(produto){
@@ -44,7 +44,6 @@ const produtosFiltrados = computed(() => {
 const totalProdutos = computed(() => produtos.value.length)
 
 const totalPorCategoria = computed(() => {
-  console.log(produtos.value)
   return {
     lanche: produtos.value.filter(p => p.categoria === "lanche").length,
     bebida: produtos.value.filter(p => p.categoria === "bebida").length,
@@ -111,7 +110,7 @@ const totalPorCategoria = computed(() => {
     </div>
   </div>
 
-  <ul class="filtros">
+  <ul class="lista-produtos">
     <li v-for="produto in produtosFiltrados" :key="produto.id"
       :class="{indisponivel: !produto.disponivel}">
       <div>
@@ -119,9 +118,9 @@ const totalPorCategoria = computed(() => {
         <br>
           <small>{{ produto.descricao }}</small>
         <br>
-          <p>{{ produto.preco }}</p>
+        <p>{{ produto.preco }}</p>
         
-          <small>{{ produto.categoria }}</small>
+        <small>{{ produto.categoria }}</small>
       </div>
       
       <div class="acoes">

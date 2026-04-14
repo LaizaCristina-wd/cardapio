@@ -30,6 +30,7 @@ export function alternarDisponibilidade(id) {
     produto.disponivel = !produto.disponivel
   }
 }
+
 export function removerProduto(produto) {
   const index = produtos.value.findIndex(p => p.id === produto.id)
   if (index !== -1) {

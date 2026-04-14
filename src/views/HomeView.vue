@@ -75,7 +75,6 @@
   transition: 0.3s;
 }
 
-
 .primary {
   background: #22c55e;
   color: white;

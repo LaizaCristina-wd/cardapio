@@ -1,218 +1,292 @@
 <script setup>
-import { formatarMoeda } from "../utils/formatarMoeda"
 import { reactive, computed, ref } from "vue"
-import { produtos, editarProduto, removerProduto, alternarDisponibilidade } from "../store/produtos"
+import { formatarMoeda } from "../utils/formatarMoeda"
+import {
+  produtos,
+  editarProduto,
+  removerProduto,
+  alternarDisponibilidade
+} from "../store/produtos"
 
-const editandoIndex = ref(null)
-const produtoEditando = ref({
-  nome: "",
-  preco: "",
-  categoria: "",
-  descricao: ""
-})
-function iniciarEdicao(produto){
-  const index = produtos.value.findIndex(p => p.id === produto.id)
-  editandoIndex.value = index 
-  produtoEditando.value = {
-    ...produtos.value[index]
+const categorias = [
+  { value: "todas", label: "Todas" },
+  { value: "lanche", label: "Lanche" },
+  { value: "bebida", label: "Bebida" },
+  { value: "sobremesa", label: "Sobremesa" }
+]
+
+const produtoEditando = ref(null)
+
+function iniciarEdicao(produto) {
+  produtoEditando.value = { ...produto }
+}
+
+function atualizarPrecoEdicao(event) {
+  if (!produtoEditando.value) {
+    return
   }
+
+  produtoEditando.value.preco = formatarMoeda(event.target.value)
 }
-function atualizarPrecoEdicao(event){
-  produtoEditando.value.preco =
-    formatarMoeda(event.target.value)
-}
-function salvarEdicao(){
-   editarProduto({
+
+function salvarEdicao() {
+  if (!produtoEditando.value) {
+    return
+  }
+
+  editarProduto({
     ...produtoEditando.value,
     categoria: produtoEditando.value.categoria.toLowerCase().trim()
   })
-  editandoIndex.value = null
+  produtoEditando.value = null
 }
-function cancelarEdicao(){
-  editandoIndex.value = null
+
+function cancelarEdicao() {
+  produtoEditando.value = null
 }
+
 const filtro = reactive({
   categoria: "todas"
 })
+
 const produtosFiltrados = computed(() => {
-  if (filtro.categoria === "todas"){
+  if (filtro.categoria === "todas") {
     return produtos.value
   }
+
   return produtos.value.filter(
-    produto => produto.categoria === filtro.categoria)
+    (produto) => produto.categoria === filtro.categoria
+  )
 })
+
 const totalProdutos = computed(() => produtos.value.length)
 
-const totalPorCategoria = computed(() => {
-  return {
-    lanche: produtos.value.filter(p => p.categoria === "lanche").length,
-    bebida: produtos.value.filter(p => p.categoria === "bebida").length,
-    sobremesa: produtos.value.filter(p => p.categoria === "sobremesa").length
-  }
-})
+const totalPorCategoria = computed(() => ({
+  lanche: produtos.value.filter((p) => p.categoria === "lanche").length,
+  bebida: produtos.value.filter((p) => p.categoria === "bebida").length,
+  sobremesa: produtos.value.filter((p) => p.categoria === "sobremesa").length
+}))
 </script>
 
 <template>
   <div class="container">
     <h2>Controle de Cardápio</h2>
+
     <div class="cards-resumo">
-    <div>Total: {{ totalProdutos }}</div>
-    <div>🍔 Lanche {{ totalPorCategoria.lanche }}</div>
-    <div>🥤 Bebida {{ totalPorCategoria.bebida }}</div>
-    <div>🍰 Sobremesa {{ totalPorCategoria.sobremesa }}</div>
-  </div>
-
-  <div class="filtros">
-   <label>Filtrar por categoria:</label>
-    <select v-model="filtro.categoria">
-      <option value="todas">Todas</option>
-      <option value="lanche">Lanche</option>
-      <option value="bebida">Bebida</option>
-      <option value="sobremesa">Sobremesa</option>
-    </select>
-  </div>
-
-  <div v-if="editandoIndex !== null "class="form-edicao">
-  <h3>Editando produto</h3>
-  <input
-    id="nome"
-    name="nome"
-    v-model="produtoEditando.nome"
-    placeholder="Nome"
-   >
-  <input
-    id="preco"
-    name="preco"
-    :value="produtoEditando.preco"
-    @input="atualizarPrecoEdicao"
-    placeholder="Preço"
-    >
-  <textarea
-    id="descricao"
-    name="descricao"
-    v-model="produtoEditando.descricao"
-    placeholder="Descrição"
-   ></textarea>
-  <select id="categoria" name="categoria" 
-  v-model="produtoEditando.categoria">
-    <option value="lanche">Lanche</option>
-    <option value="bebida">Bebida</option>
-    <option value="sobremesa">Sobremesa</option>
-  </select>
-
-    <div class="acoes">
-      <button class="color-btn" @click="salvarEdicao">
-      Salvar
-      </button>
-      <button class="second-color-btn" @click="cancelarEdicao">
-      Cancelar
-      </button>
+      <div>Total: {{ totalProdutos }}</div>
+      <div>🍔 Lanche {{ totalPorCategoria.lanche }}</div>
+      <div>🥤 Bebida {{ totalPorCategoria.bebida }}</div>
+      <div>🍰 Sobremesa {{ totalPorCategoria.sobremesa }}</div>
     </div>
-  </div>
 
-  <ul class="lista-produtos">
-    <li v-for="produto in produtosFiltrados" :key="produto.id"
-      :class="{indisponivel: !produto.disponivel}">
-      <div>
-        <strong>{{ produto.nome }}</strong>
-        <br>
-          <small>{{ produto.descricao }}</small>
-        <br>
-        <p>{{ produto.preco }}</p>
-        
-        <small>{{ produto.categoria }}</small>
-      </div>
-      
+    <div class="filtros">
+      <label for="filtro-categoria">Filtrar por categoria:</label>
+      <select id="filtro-categoria" v-model="filtro.categoria">
+        <option
+          v-for="categoria in categorias"
+          :key="categoria.value"
+          :value="categoria.value"
+        >
+          {{ categoria.label }}
+        </option>
+      </select>
+    </div>
+
+    <section v-if="produtoEditando" class="form-edicao">
+      <h3>Editando produto</h3>
+
+      <label for="nome-edicao">Nome</label>
+      <input
+        id="nome-edicao"
+        v-model="produtoEditando.nome"
+        placeholder="Nome"
+      />
+
+      <label for="preco-edicao">Preço</label>
+      <input
+        id="preco-edicao"
+        :value="produtoEditando.preco"
+        @input="atualizarPrecoEdicao"
+        placeholder="R$ 0,00"
+      />
+
+      <label for="descricao-edicao">Descrição</label>
+      <textarea
+        id="descricao-edicao"
+        v-model="produtoEditando.descricao"
+        placeholder="Descrição"
+      ></textarea>
+
+      <label for="categoria-edicao">Categoria</label>
+      <select id="categoria-edicao" v-model="produtoEditando.categoria">
+        <option value="lanche">Lanche</option>
+        <option value="bebida">Bebida</option>
+        <option value="sobremesa">Sobremesa</option>
+      </select>
+
       <div class="acoes">
-        <button
-         @click="alternarDisponibilidade(produto.id)">
-         {{ produto.disponivel? "Disponível" : "Indisponível"}}
+        <button class="color-btn" type="button" @click="salvarEdicao">
+          Salvar
         </button>
-        <button class="color-btn" @click="iniciarEdicao(produto)">
-        Editar
-        </button>
-        <button class="second-color-btn" @click="removerProduto(produto)">
-        Remover
+        <button class="second-color-btn" type="button" @click="cancelarEdicao">
+          Cancelar
         </button>
       </div>
-    </li>
-  </ul>
-</div>
+    </section>
+
+    <ul class="lista-produtos">
+      <li
+        v-for="produto in produtosFiltrados"
+        :key="produto.id"
+        :class="{ indisponivel: !produto.disponivel }"
+      >
+        <div>
+          <strong>{{ produto.nome }}</strong>
+          <p>{{ produto.descricao }}</p>
+          <span>{{ produto.preco }}</span>
+          <small>{{ produto.categoria }}</small>
+        </div>
+
+        <div class="acoes">
+          <button type="button" @click="alternarDisponibilidade(produto.id)">
+            {{ produto.disponivel ? "Disponível" : "Indisponível" }}
+          </button>
+          <button class="color-btn" type="button" @click="iniciarEdicao(produto)">
+            Editar
+          </button>
+          <button class="second-color-btn" type="button" @click="removerProduto(produto.id)">
+            Remover
+          </button>
+        </div>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <style scoped>
-.form-edicao{
-  margin-bottom:20px;
-  padding:15px;
-  background:#f3f4f6;
-  border-radius:8px;
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-}
-
-.acoes{
-  display:flex;
-  gap:6px;
-}
-
-.container{
-  max-width: 420px;
+.container {
+  max-width: 520px;
   margin: 40px auto;
-  padding: 25px;
+  padding: 28px;
   background: white;
+  border-radius: 14px;
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.08);
+}
+
+.cards-resumo {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(120px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.cards-resumo div {
+  padding: 14px;
   border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  background: #f8fafc;
+  color: #111827;
+  font-weight: 600;
 }
 
-.filtros{
-  margin-bottom: 20px;
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-}
-  
-select{
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
+.filtros {
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-ul{
+.form-edicao {
+  margin-bottom: 24px;
+  padding: 20px;
+  background: #f3f4f6;
+  border-radius: 14px;
+  display: grid;
+  gap: 12px;
+}
+
+label {
+  font-size: 0.95rem;
+  color: #374151;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+}
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.lista-produtos {
   list-style: none;
+  margin: 0;
   padding: 0;
+  display: grid;
+  gap: 14px;
 }
 
-li{
+li {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 18px;
+  border-radius: 12px;
   background: #f9fafb;
-  padding: 12px;
-  margin-bottom: 10px;
-  border-radius: 8px;
-  transition: 0.3s;
 }
-.indisponivel{
-    opacity: 0.4;
+
+li.indisponivel {
+  opacity: 0.5;
 }
-.color-btn{
-  background: #6e6868;
-  color: white;
+
+li strong {
+  display: block;
+  margin-bottom: 8px;
 }
-.second-color-btn{
-  background: #6e6868 ;
-  color: white;
+
+li p {
+  margin: 0 0 8px;
+  color: #4b5563;
 }
-button{
-  padding: 6px 10px;
-  border-radius: 6px;
+
+li span {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.acoes {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 135px;
+}
+
+button {
+  padding: 10px;
+  border-radius: 10px;
   border: none;
   cursor: pointer;
+  transition: filter 0.2s ease;
 }
 
-button:hover{
-  background: #99ad93;
+button:hover {
+  filter: brightness(0.95);
 }
 
+.color-btn {
+  background: #68c790;
+  color: white;
+}
+
+.second-color-btn {
+  background: #ef4444;
+  color: white;
+}
 </style>

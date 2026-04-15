@@ -2,6 +2,14 @@
 import { reactive } from "vue"
 import { formatarMoeda } from "../utils/formatarMoeda"
 import { adicionarProduto } from "../store/produtos"
+
+const categorias = [
+  { value: "", label: "Selecione uma categoria" },
+  { value: "lanche", label: "Lanche" },
+  { value: "bebida", label: "Bebida" },
+  { value: "sobremesa", label: "Sobremesa" }
+]
+
 const novoProduto = reactive({
   nome: "",
   preco: "",
@@ -12,53 +20,72 @@ const novoProduto = reactive({
 function atualizarPreco(event) {
   novoProduto.preco = formatarMoeda(event.target.value)
 }
+
+function limparFormulario() {
+  novoProduto.nome = ""
+  novoProduto.preco = ""
+  novoProduto.descricao = ""
+  novoProduto.categoria = ""
+}
+
 function cadastrarProduto() {
-  if (
-    novoProduto.nome.trim() === "" ||
-    novoProduto.preco === ""
-  ) {
+  if (!novoProduto.nome.trim() || !novoProduto.preco || !novoProduto.categoria) {
     alert("Preencha todos os campos")
     return
   }
+
   adicionarProduto({
-    nome: novoProduto.nome,
+    nome: novoProduto.nome.trim(),
     preco: novoProduto.preco,
-    descricao: novoProduto.descricao,
+    descricao: novoProduto.descricao.trim(),
     categoria: novoProduto.categoria
   })
-    novoProduto.nome = ""
-    novoProduto.preco = ""
-    novoProduto.descricao = ""
-    novoProduto.categoria = ""
+
+  limparFormulario()
 }
 </script>
 
 <template>
   <div class="container">
     <h2>Cadastrar produto</h2>
+
     <form class="form" @submit.prevent="cadastrarProduto">
+      <label for="nome">Nome do produto</label>
       <input
-        v-model="novoProduto.nome"
+        id="nome"
+        v-model.trim="novoProduto.nome"
         placeholder="Nome do produto"
       />
+
+      <label for="descricao">Descrição</label>
       <textarea
-        v-model="novoProduto.descricao"
+        id="descricao"
+        v-model.trim="novoProduto.descricao"
         placeholder="Descrição do produto"
       ></textarea>
+
+      <label for="preco">Preço</label>
       <input
+        id="preco"
+        type="text"
         :value="novoProduto.preco"
         @input="atualizarPreco"
-        placeholder="Preço"
+        placeholder="R$ 0,00"
       />
-      <select v-model="novoProduto.categoria">
-        <option disabled value="">Categorias</option>
-        <option value="lanche">Lanche</option>
-        <option value="bebida">Bebida</option>
-        <option value="sobremesa">Sobremesa</option>
+
+      <label for="categoria">Categoria</label>
+      <select id="categoria" v-model="novoProduto.categoria">
+        <option
+          v-for="categoria in categorias"
+          :key="categoria.value"
+          :value="categoria.value"
+          :disabled="categoria.value === ''"
+        >
+          {{ categoria.label }}
+        </option>
       </select>
-      <button type="submit">
-        Cadastrar
-      </button>
+
+      <button type="submit">Cadastrar</button>
     </form>
   </div>
 </template>
@@ -68,39 +95,48 @@ textarea {
   padding: 10px;
   border-radius: 8px;
   border: 1px solid #ddd;
-  min-height: 70px;
+  min-height: 100px;
   resize: vertical;
 }
 
 .container {
-  max-width: 420px;
+  max-width: 480px;
   margin: 40px auto;
-  padding: 25px;
+  padding: 28px;
   background: white;
-  border-radius: 12px;
+  border-radius: 14px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 14px;
+}
+
+label {
+  font-weight: 600;
+  color: #333;
 }
 
 input,
-select {
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
+select,
+textarea {
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  width: 100%;
 }
 
 button {
-  padding: 10px;
-  border-radius: 8px;
+  padding: 12px;
+  border-radius: 10px;
   border: none;
   background: #22c55e;
   color: white;
+  font-weight: 700;
   cursor: pointer;
+  transition: background 0.2s ease;
 }
 
 button:hover {

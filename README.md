@@ -45,61 +45,61 @@ http://localhost:8080
   
 - **reactive** (objeto reativo)
   - CadastroView.vue (~linha 13) - novoProduto
-  - ControleView.vue (~linha 44) - filtro
+  - ControleView.vue (~linha 48) - filtro
 
 ### Two-way Binding
 - **v-model** - binding básico
   - CadastroView.vue (~linha 77) - select categoria
-  - ControleView.vue (~linha 82) - select filtro
+  - ControleView.vue (~linha 84) - select filtro
   
 - **v-model.trim** - binding com modifier para remover espaços
-  - CadastroView.vue (~linhas 53, 62) - input nome, textarea descrição
+  - CadastroView.vue (~linhas 56, 63) - input nome, textarea descrição
 
 ### Propriedades Computadas
 - **computed** - valores derivados reativos
-  - ControleView.vue (~linha 49) - produtosFiltrados
-  - ControleView.vue (~linha 57) - totalProdutos
-  - ControleView.vue (~linha 59) - totalPorCategoria
+  - ControleView.vue (~linha 52) - produtosFiltrados
+  - ControleView.vue (~linha 62) - totalProdutos
+  - ControleView.vue (~linha 64) - totalPorCategoria
 
 ### Eventos
 - **@input** - evento de entrada em tempo real
-  - CadastroView.vue (~linha 67) - atualizarPreco no input preço
-  - ControleView.vue (~linha 99) - atualizarPrecoEdicao
+  - CadastroView.vue (~linha 72) - atualizarPreco no input preço
+  - ControleView.vue (~linha 109) - atualizarPrecoEdicao
   
 - **@click** - eventos de clique
-  - ControleView.vue (~linhas 143, 147, 151) - botões salvar, cancelar, remover
+  - ControleView.vue (~linhas 128, 131, 151) - botões salvar, cancelar, remover
 
 - **@submit.prevent** - prevenção de envio de formulário
-  - CadastroView.vue (~linha 50) - form submit
+  - CadastroView.vue (~linha 52) - form submit
 
 ### Renderização Condicional
 - **v-if** - renderização condicional
-  - ControleView.vue (~linha 91) - mostrar formulário de edição
+  - ControleView.vue (~linha 95) - mostrar formulário de edição
   - CardapioView.vue (~linha 8) - mostrar grid de produtos
   
 - **v-else** - alternativa quando condição é falsa
-  - CardapioView.vue (~linha 22) - mensagem quando sem produtos
+  - CardapioView.vue (~linha 23) - mensagem quando sem produtos
 
 ### Renderização de Listas
 - **v-for** - loop sobre arrays
-  - CadastroView.vue (~linha 75) - loop categorias em options
-  - ControleView.vue (~linha 82) - loop categorias em select
-  - CardapioView.vue (~linha 9) - loop produtos em articles
+  - CadastroView.vue (~linha 79) - loop categorias em options
+  - ControleView.vue (~linha 86) - loop categorias em select
+  - CardapioView.vue (~linha 10) - loop produtos em articles
 
 - **:key** - identificação única de elementos
-  - CadastroView.vue (~linha 76) - key em option
-  - ControleView.vue (~linha 83) - key em option
-  - CardapioView.vue (~linha 10) - key="produto.id" em article
+  - CadastroView.vue (~linha 80) - key em option
+  - ControleView.vue (~linha 87-140) 
+  - CardapioView.vue (~linha 11) - key="produto.id" em article
 
 ### Classes Dinâmicas
 - **:class** - classes CSS condicionais
-  - ControleView.vue (~linha 138) - :class="{ indisponivel: !produto.disponivel }"
-  - CardapioView.vue (~linha 12) - :class="{ indisponivel: !produto.disponivel }"
+  - ControleView.vue (~linha 141) - :class="{ indisponivel: !produto.disponivel }"
+  - CardapioView.vue (~linha 13) - :class="{ indisponivel: !produto.disponivel }"
 
 ### Operadores
 - **Spread operator (...)** - desestruturação e cópia de objetos
-  - CadastroView.vue (~linha 39) - spread ao criar novo produto
-  - ControleView.vue (~linha 21, 35, 101) - spread ao copiar/editar produtos
+  -produtos.js (~linha 11, 22, 40) copiar dados do objeto para atualizar
+  - ControleView.vue (~linha 21, 38) - spread ao copiar/editar produtos
 
 ### Roteamento
 - **RouterLink** - navegação entre rotas
